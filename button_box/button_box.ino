@@ -10,8 +10,8 @@
 #define REPEATER_COUNT 4
 #define BTN_COUNT (sizeof(buttons) / sizeof(buttons[0]))
 
-#define BTN_ACTUAL_STATE(item_ptr, btn_state) 
-			(item_ptr->inverted ? !btn_state : btn_state)
+#define BTN_ACTUAL_STATE(btn_ptr, btn_state) 
+			(btn_ptr->inverted ? !btn_state : btn_state)
 
 #define IS_TOGGLE_BTN(btn_num) 
 			(btn_num == 2 || btn_num == 3 ||	\
@@ -74,7 +74,7 @@ void setup()
 	}
 }
 
-void simulate_btn_click(ButtonBoxItem* btn)
+void btn_click(ButtonBoxItem* btn)
 {
 	uint8_t curr_btn_state = BTN_ACTUAL_STATE(btn, digitalRead(btn->pin));
 	if (btn->state == curr_btn_state) return;
@@ -86,7 +86,7 @@ void simulate_btn_click(ButtonBoxItem* btn)
 	Joystick.button(btn->num, false);
 }
 
-void simulate_btn_repeater(ButtonBoxItem* btn)
+void btn_repeater(ButtonBoxItem* btn)
 {
 	uint8_t curr_btn_state = BTN_ACTUAL_STATE(btn, digitalRead(btn->pin));
 	if (btn->state == curr_btn_state) return;
@@ -101,7 +101,7 @@ void simulate_btn_repeater(ButtonBoxItem* btn)
 	}
 }
 
-void simulate_btn_toggle(ButtonBoxItem* btn)
+void btn_toggle(ButtonBoxItem* btn)
 {
 	btn->state = BTN_ACTUAL_STATE(btn, digitalRead(btn->pin));
 	Joystick.button(btn->num, btn->state);
@@ -191,9 +191,9 @@ void loop()
 		ButtonBoxItem* btn = &buttons[i];
 
 		switch (btn->type) {
-			case CLICK: simulate_btn_click(btn); break;
-			case REPEATER: simulate_btn_repeater(btn); break;
-			case TOGGLE: simulate_btn_toggle(btn); break;
+			case CLICK: btn_click(btn); break;
+			case REPEATER: btn_repeater(btn); break;
+			case TOGGLE: btn_toggle(btn); break;
 			default: break;
 		}
 	}
