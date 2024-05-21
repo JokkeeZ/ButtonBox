@@ -10,10 +10,10 @@
 #define REPEATER_COUNT 4
 #define BTN_COUNT (sizeof(buttons) / sizeof(buttons[0]))
 
-#define BTN_ACTUAL_STATE(btn_ptr, btn_state) 
+#define BTN_ACTUAL_STATE(btn_ptr, btn_state)			\
 			(btn_ptr->inverted ? !btn_state : btn_state)
 
-#define IS_TOGGLE_BTN(btn_num) 
+#define IS_TOGGLE_BTN(btn_num) 					\
 			(btn_num == 2 || btn_num == 3 ||	\
 			btn_num == 8 || btn_num == 9 || 	\
 			btn_num == 14 || btn_num == 15)
